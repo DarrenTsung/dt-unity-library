@@ -1,3 +1,4 @@
+using DT.LootSystem;
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Collections;

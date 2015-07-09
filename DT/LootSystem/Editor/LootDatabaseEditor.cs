@@ -1,3 +1,4 @@
+using DT.LootSystem;
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Collections;
@@ -34,7 +35,7 @@ namespace DT.LootSystemEditor {
 		public static void Init() {
 			LootDatabaseEditor window = EditorWindow.GetWindow<LootDatabaseEditor>();
 			window.minSize = new Vector2(600, 300);
-			window.title = "Loot Database";
+			window.titleContent = new GUIContent("Loot Database");
 			window.Show();
 		}
 
