@@ -26,7 +26,6 @@ namespace DT {
 	}
 
 	public class PrefabManager : Singleton<PrefabManager> {
-
 		protected PrefabManager () {}
 
 		protected PrefabList prefabList;
