@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Linq;		// used for ElementAt
 using System.Collections;
 using System.Collections.Generic;
-using Vexe.Runtime.Types;
+using Vexe.Runtime.Types;   // used for BetterScriptableObject
 
 #if UNITY_EDITOR
 using UnityEditor;
