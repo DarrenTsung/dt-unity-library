@@ -75,7 +75,4 @@ namespace DT.LootSystem {
 			return null;
 		}
 	}
-
-	[System.Serializable]
-	public class LootIdMap : SerializableDictionary<string, Loot> {}
 }
