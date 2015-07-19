@@ -31,7 +31,7 @@ namespace DT.LootSystemEditor {
 		protected DictionaryRenameOperation renameStruct;
 		protected DictionaryRemoveOperation removeStruct;
 		
-		[MenuItem("DarrenTsung/Database/Loot Database Editor %#i")]
+		[MenuItem("DarrenTsung/Databases/Loot Database Editor %#i")]
 		public static void Init() {
 			LootDatabaseEditor window = EditorWindow.GetWindow<LootDatabaseEditor>();
 			window.minSize = new Vector2(600, 300);
