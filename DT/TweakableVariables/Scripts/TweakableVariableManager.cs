@@ -58,13 +58,13 @@ namespace DT.TweakableVariables {
 		protected TweakableVariableManager() {}
 		
 		protected void Update() {
-			if (Input.GetKeyDown(TOGGLE_KEY)) {
-				GameObject canvasObject = CanvasTransform.gameObject as GameObject;
-				canvasObject.SetActive(!canvasObject.activeSelf);
-				
-				EventSystem.current.SetSelectedGameObject(_searchField.gameObject, null);
-				_searchField.ActivateInputField();
-			}
+			// if (Input.GetKeyDown(TOGGLE_KEY)) {
+			// 	GameObject canvasObject = CanvasTransform.gameObject as GameObject;
+			// 	canvasObject.SetActive(!canvasObject.activeSelf);
+			// 	
+			// 	EventSystem.current.SetSelectedGameObject(_searchField.gameObject, null);
+			// 	_searchField.ActivateInputField();
+			// }
 		}
 		
 		protected void Awake() {
