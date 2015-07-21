@@ -25,8 +25,15 @@ namespace DT.BehaviourTrees {
       get { return _state; }
     }
     
-    public BTNode(BTNode parent) {
+    protected List<BTNode> _children;
+    public List<BTNode> Children {
+      get { return _children; }
+    }
+    
+    public BTNode(int nodeId, BTNode parent) {
+      _nodeId = nodeId;
       _parent = parent;
+      _state = BTNodeState.SUCCESS;
     }
     
     public bool IsRunning() {
@@ -36,11 +43,16 @@ namespace DT.BehaviourTrees {
     public virtual void Tick() {
     }
     
-    public virtual List<BTNode> Children {
-      get { 
-        Debug.LogError("Children - not implemented!"); 
-        return null;
+    protected virtual bool CanAddChild(BTNode child, ref string errorMessage) {
+      return true;
+    }
+    
+    public virtual void AddChild(BTNode child, ref string errorMessage) {
+      if (!this.CanAddChild(child, ref errorMessage)) {
+        return;
       }
+      
+      _children.Add(child);
     }
     
     protected virtual BTNode SelectChildToProcess() {
@@ -54,6 +66,7 @@ namespace DT.BehaviourTrees {
     }
     
     protected virtual void HandleStart() {
+      this.Tick();
     }
     
     protected virtual void HandleChildFinish(BTNode child) {
