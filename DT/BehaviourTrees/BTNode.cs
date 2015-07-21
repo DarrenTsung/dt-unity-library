@@ -49,7 +49,8 @@ namespace DT.BehaviourTrees {
     }
     
     protected virtual void StartProcessingChild() {
-      _child.HandleStart();
+      BTNode child = this.SelectChildToProcess();
+      child.HandleStart();
     }
     
     protected virtual void HandleStart() {

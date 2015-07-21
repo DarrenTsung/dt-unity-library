@@ -11,7 +11,7 @@ namespace DT.BehaviourTrees {
 
     protected BTNode root;
 
-    public BTree() {
+    public BehaviourTree() {
       _dataContext = new Dictionary<string, object>();
       _activeNodes = new List<BTNode>();
     }
