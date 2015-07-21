@@ -5,7 +5,7 @@ using System.Linq;          // used for Except
 using Vexe.Runtime.Types;     // used for Message
 
 namespace DT.BehaviourTrees {
-  public class BTree {
+  public class BehaviourTree {
     protected Dictionary<string, object> _dataContext;
     protected List<BTNode> _activeNodes;
 

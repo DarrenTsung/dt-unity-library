@@ -10,6 +10,11 @@ namespace DT.BehaviourTrees {
   };
   
   public class BTNode {
+    protected int _nodeId;
+    public int NodeId {
+      get { return _nodeId; }
+    }
+    
     protected BTNode _parent;
     public BTNode Parent {
       get { return _parent;}
@@ -29,7 +34,6 @@ namespace DT.BehaviourTrees {
     }
     
     public virtual void Tick() {
-      
     }
     
     public virtual List<BTNode> Children {
@@ -45,7 +49,10 @@ namespace DT.BehaviourTrees {
     }
     
     protected virtual void StartProcessingChild() {
-      // if child is leaf node, call init
+      _child.HandleStart();
+    }
+    
+    protected virtual void HandleStart() {
     }
     
     protected virtual void HandleChildFinish(BTNode child) {
