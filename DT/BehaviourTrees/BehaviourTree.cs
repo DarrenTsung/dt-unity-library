@@ -20,37 +20,22 @@ namespace DT.BehaviourTrees {
       foreach (BTNode node in _activeNodes) {
         node.Tick();
       }
-      UpdateActiveNodes();
     }
     
-    protected void UpdateActiveNodes() {
-      List<BTNode> inactiveNodes = new List<BTNode>();
-      List<BTNode> activeNodesToPossiblyAdd = new List<BTNode>();
-      foreach (BTNode node in _activeNodes) {
-        if (node.IsRunning()) {
-          inactiveNodes.Add(node);
-          
-          // loop through all the children + parent of the node
-          if (node.Parent.IsRunning()) {
-            activeNodesToPossiblyAdd.Add(node.Parent);
-          }
-          foreach (BTNode child in node.Children) {
-            if (child.IsRunning()) {
-              activeNodesToPossiblyAdd.Add(child);
-            }
-          }
-        }
+    public void NodeDidStart(BTNode node) {
+      if (_activeNodes.Contains(node)) {
+        Locator.Logger.LogError("NodeDidStart - started node was in active nodes!");
+        return;
       }
-      
-      foreach (BTNode node in inactiveNodes) {
-        _activeNodes.Remove(node);
+      _activeNodes.Add(node);
+    }
+    
+    public void NodeDidFinish(BTNode node) {
+      if (!_activeNodes.Contains(node)) {
+        Locator.Logger.LogError("NodeDidFinish - finished node was not in active nodes!");
+        return;
       }
-      
-      foreach (BTNode node in activeNodesToPossiblyAdd) {
-        if (!_activeNodes.Contains(node)) {
-          _activeNodes.Add(node);
-        }
-      }
+      _activeNodes.Remove(node);
     }
   }
 }

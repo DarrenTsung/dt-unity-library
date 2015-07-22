@@ -10,8 +10,17 @@ namespace DT.BehaviourTrees {
   /// Default implementation here just passes the child's return value to the parent
   /// </summary>
   public class BTDecoratorNode : BTNode {
-    public BTDecoratorNode(int nodeId, BTNode parent) : base(nodeId, parent) {
+    public BTDecoratorNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
       
+    }
+    
+    protected BTNode Child {
+      get {
+        if (_children.Count != 1) {
+          Locator.Logger.LogError("Decorator Node with invalid number of children!");
+        }
+        return _children[0];
+      }
     }
     
     protected override bool CanAddChild(BTNode child, ref string errorMessage) {
@@ -20,6 +29,10 @@ namespace DT.BehaviourTrees {
         return false;
       }
       return true;
+    }
+    
+    protected override BTNode SelectChildToProcess() {
+      return this.Child;
     }
     
     protected override void HandleChildFinish(BTNode child) {

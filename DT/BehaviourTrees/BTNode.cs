@@ -9,7 +9,7 @@ namespace DT.BehaviourTrees {
     RUNNING
   };
   
-  public class BTNode {
+  public abstract class BTNode {
     protected int _nodeId;
     public int NodeId {
       get { return _nodeId; }
@@ -30,8 +30,11 @@ namespace DT.BehaviourTrees {
       get { return _children; }
     }
     
-    public BTNode(int nodeId, BTNode parent) {
+    protected BehaviourTree _tree;
+    
+    public BTNode(int nodeId, BehaviourTree tree, BTNode parent) {
       _nodeId = nodeId;
+      _tree = tree;
       _parent = parent;
       _state = BTNodeState.SUCCESS;
     }
@@ -43,10 +46,6 @@ namespace DT.BehaviourTrees {
     public virtual void Tick() {
     }
     
-    protected virtual bool CanAddChild(BTNode child, ref string errorMessage) {
-      return true;
-    }
-    
     public virtual void AddChild(BTNode child, ref string errorMessage) {
       if (!this.CanAddChild(child, ref errorMessage)) {
         return;
@@ -55,21 +54,25 @@ namespace DT.BehaviourTrees {
       _children.Add(child);
     }
     
-    protected virtual BTNode SelectChildToProcess() {
-      Locator.Logger.LogError("SelectChildToProcess - not implemented and/or overriden!");
-      return null;
+    protected abstract BTNode SelectChildToProcess();
+    
+    protected abstract void HandleChildFinish(BTNode child);
+    
+    protected virtual bool CanAddChild(BTNode child, ref string errorMessage) {
+      return true;
     }
     
-    protected virtual void StartProcessingChild() {
+    protected virtual void ProcessOneChild() {
       BTNode child = this.SelectChildToProcess();
+      if (child == null) {
+        Locator.Logger.LogError("BTNode::ProcessOneChild - selected child to process is null!");
+      }
       child.HandleStart();
     }
     
     protected virtual void HandleStart() {
+      _tree.NodeDidStart(this);
       this.Tick();
-    }
-    
-    protected virtual void HandleChildFinish(BTNode child) {
     }
     
     protected virtual void Succeed() {
@@ -83,6 +86,7 @@ namespace DT.BehaviourTrees {
     }
     
     protected virtual void Finish() {
+      _tree.NodeDidFinish(this);
       _parent.HandleChildFinish(this);
     }
     
