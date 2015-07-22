@@ -9,10 +9,10 @@ namespace DT.BehaviourTrees {
   /// 2. Processes it's children in a random order and 
   ///    returns failure if [maxFailedNodes + 1] of the children fail
   /// </summary>
-  public class BTCRandomNode: BTCompositeNode {
-    public BTCRandomNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent, 0) {}
+  public class BTRandomCNode: BTCompositeNode {
+    public BTRandomCNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent, 0) {}
     
-    public BTCRandomNode(int nodeId, BehaviourTree tree, BTNode parent, int maxFailedNodes) : base(nodeId, tree, parent, maxFailedNodes) {}
+    public BTRandomCNode(int nodeId, BehaviourTree tree, BTNode parent, int maxFailedNodes) : base(nodeId, tree, parent, maxFailedNodes) {}
     
     protected override BTNode SelectChildToProcess() {
       List<BTNode> nonChosenNodes = _children.Except(_chosenNodes).ToList();

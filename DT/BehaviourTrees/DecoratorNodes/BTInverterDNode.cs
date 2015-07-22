@@ -7,10 +7,8 @@ namespace DT.BehaviourTrees {
   /// 1. Only 1 child
   /// 2. Inverts the child's return value (child success == pass failure to parent) and passes to parent
   /// </summary>
-  public class BTDInverterNode : BTDecoratorNode {
-    public BTDInverterNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
-      
-    }
+  public class BTInverterDNode : BTDecoratorNode {
+    public BTInverterDNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {}
     
     protected override void ReturnStateBasedOnFinishedChild(BTNode child) {
       if (child.State == BTNodeState.SUCCESS) {

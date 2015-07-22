@@ -10,9 +10,7 @@ namespace DT.BehaviourTrees {
   /// Default implementation here does nothing per tick
   /// </summary>
   public abstract class BTLeafNode : BTNode {
-    public BTLeafNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
-      
-    }
+    public BTLeafNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {}
     
     protected override BTNode SelectChildToProcess() {
       return null;

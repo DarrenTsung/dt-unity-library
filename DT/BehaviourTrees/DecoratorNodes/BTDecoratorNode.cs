@@ -19,9 +19,7 @@ namespace DT.BehaviourTrees {
       }
     }
     
-    public BTDecoratorNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
-      
-    }
+    public BTDecoratorNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {}     
     
     protected override BTNode SelectChildToProcess() {
       return this.Child;

@@ -8,10 +8,10 @@ namespace DT.BehaviourTrees {
   /// 2. Processes it's children from first to last and 
   ///    returns failure if [maxFailedNodes + 1] of the children fail
   /// </summary>
-  public class BTCSequenceNode: BTCompositeNode {
-    public BTCSequenceNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent, 0) {}
+  public class BTSequenceCNode: BTCompositeNode {
+    public BTSequenceCNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent, 0) {}
     
-    public BTCSequenceNode(int nodeId, BehaviourTree tree, BTNode parent, int maxFailedNodes) : base(nodeId, tree, parent, maxFailedNodes) {}
+    public BTSequenceCNode(int nodeId, BehaviourTree tree, BTNode parent, int maxFailedNodes) : base(nodeId, tree, parent, maxFailedNodes) {}
     
     protected override BTNode SelectChildToProcess() {
       foreach (BTNode child in _children) {
