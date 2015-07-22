@@ -9,7 +9,7 @@ namespace DT.BehaviourTrees {
   /// 
   /// Default implementation here just passes the child's return value to the parent
   /// </summary>
-  public class BTDecoratorNode : BTNode {
+  public abstract class BTDecoratorNode : BTNode {
     protected BTNode Child {
       get {
         if (_children.Count != 1) {

@@ -12,7 +12,7 @@ namespace DT.BehaviourTrees {
       
     }
     
-    protected virtual void ReturnStateBasedOnFinishedChild(BTNode child) {
+    protected override void ReturnStateBasedOnFinishedChild(BTNode child) {
       if (child.State == BTNodeState.SUCCESS) {
         Fail();
       } else if (child.State == BTNodeState.FAILURE) {
