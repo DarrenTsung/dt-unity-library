@@ -24,7 +24,7 @@ namespace DT.TweakableVariables {
 					}
 					
 					if (_canvasTransform == null) {
-						Debug.LogError("TweakableVariableManager - No child with UICanvas found!");
+						Locator.Logger.LogError("TweakableVariableManager - No child with UICanvas found!");
 					}
 				}
 				

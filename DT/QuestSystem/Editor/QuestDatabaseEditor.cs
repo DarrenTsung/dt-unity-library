@@ -70,15 +70,12 @@ namespace DT.QuestSystemEditor {
 
 		protected void ModifyDictionary() {
 			if (renameStruct.oldKey != 0 && renameStruct.newKey != 0) {
-				Debug.Log("Old: " + renameStruct.oldKey);
-				Debug.Log("New: " + renameStruct.newKey);
 				database.RenameKey(renameStruct.oldKey, renameStruct.newKey);
 				renameStruct.oldKey = 0;
 				renameStruct.newKey = 0;
 			}
 
 			if (removeStruct.key != 0) {
-				Debug.Log("Removing : " + removeStruct.key);
 				database.Remove(removeStruct.key);
 				removeStruct.key = 0;
 			}

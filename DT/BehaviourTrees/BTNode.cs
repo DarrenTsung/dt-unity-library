@@ -56,7 +56,7 @@ namespace DT.BehaviourTrees {
     }
     
     protected virtual BTNode SelectChildToProcess() {
-      Debug.LogError("SelectChildToProcess - not implemented and/or overriden!");
+      Locator.Logger.LogError("SelectChildToProcess - not implemented and/or overriden!");
       return null;
     }
     

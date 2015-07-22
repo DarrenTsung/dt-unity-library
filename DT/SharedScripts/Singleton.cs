@@ -17,9 +17,9 @@ namespace DT {
 		public static T Instance {
 			get {
 				if (applicationIsQuitting) {
-					Debug.LogWarning("[Singleton] Instance '"+ typeof(T) +
-					                 "' already destroyed on application quit." +
-					                 " Won't create again - returning null.");
+					Locator.Logger.LogWarning("[Singleton] Instance '"+ typeof(T) +
+										                "' already destroyed on application quit." +
+										                " Won't create again - returning null.");
 					return null;
 				}
 				
@@ -27,10 +27,10 @@ namespace DT {
 					if (_instance == null) {
 						_instance = (T) FindObjectOfType(typeof(T));
 						
-						if ( FindObjectsOfType(typeof(T)).Length > 1 ) {
-							Debug.LogError("[Singleton] Something went really wrong " +
-							               " - there should never be more than 1 singleton!" +
-							               " Reopening the scene might fix it.");
+						if (FindObjectsOfType(typeof(T)).Length > 1 ) {
+							Locator.Logger.LogError("[Singleton] Something went really wrong " +
+											               	" - there should never be more than 1 singleton!" +
+											               	" Reopening the scene might fix it.");
 							return _instance;
 						}
 						
@@ -41,9 +41,9 @@ namespace DT {
 							
 							DontDestroyOnLoad(singleton);
 							
-							Debug.LogWarning("[Singleton] An instance of " + typeof(T) + 
-									         " is needed in the scene, so '" + singleton +
-									         "' was created with DontDestroyOnLoad.");
+							Locator.Logger.LogWarning("[Singleton] An instance of " + typeof(T) + 
+															          " is needed in the scene, so '" + singleton +
+															          "' was created with DontDestroyOnLoad.");
 						}
 					}
 

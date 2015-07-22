@@ -39,7 +39,7 @@ namespace DT {
 				GameObject prefab = prefabList.PrefabForName(prefabName);
 				return Instantiate(prefab, position, Quaternion.identity) as GameObject;
 			} else {
-				Debug.LogWarning("SpawnPrefab - invalid prefab name: " + prefabName);
+				Locator.Logger.LogWarning("SpawnPrefab - invalid prefab name: " + prefabName);
 			}
 			return null;
 		}

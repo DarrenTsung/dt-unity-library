@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -71,7 +71,7 @@ namespace DT.LootSystem {
 				lastIndex += drop.weight;
 			}
 
-			Debug.LogError("LootDrop:ChooseRandom - Drop was not chosen correctly | chosenIndex: " + chosenIndex);
+			Locator.Logger.LogError("LootDrop:ChooseRandom - Drop was not chosen correctly | chosenIndex: " + chosenIndex);
 			return null;
 		}
 	}

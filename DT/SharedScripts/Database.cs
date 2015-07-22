@@ -24,7 +24,7 @@ namespace DT {
 				if (!AssetDatabase.IsValidFolder(DATABASE_FOLDER_PREFIX_PATH + "/" + DATABASE_FOLDER_NAME)) {
 					AssetDatabase.CreateFolder(DATABASE_FOLDER_PREFIX_PATH, DATABASE_FOLDER_NAME);
 				}
-        Debug.Log("Creating new database!");
+        Locator.Logger.Log("Creating new database!");
 				database = ScriptableObject.CreateInstance<T>();
 				AssetDatabase.CreateAsset(database, databaseFullPath);
 				AssetDatabase.SaveAssets();
