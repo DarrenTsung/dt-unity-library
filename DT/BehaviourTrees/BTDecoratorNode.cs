@@ -10,10 +10,6 @@ namespace DT.BehaviourTrees {
   /// Default implementation here just passes the child's return value to the parent
   /// </summary>
   public class BTDecoratorNode : BTNode {
-    public BTDecoratorNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
-      
-    }
-    
     protected BTNode Child {
       get {
         if (_children.Count != 1) {
@@ -21,6 +17,23 @@ namespace DT.BehaviourTrees {
         }
         return _children[0];
       }
+    }
+    
+    public BTDecoratorNode(int nodeId, BehaviourTree tree, BTNode parent) : base(nodeId, tree, parent) {
+      
+    }
+    
+    protected override BTNode SelectChildToProcess() {
+      return this.Child;
+    }
+    
+    protected override void HandleChildFinish(BTNode child) {
+      if (child.IsRunning()) {
+        Locator.Logger.LogError("BTDecoratorNode::HandleChildFinish - called when child is running");
+        return;
+      }
+     
+      this.ReturnStateBasedOnFinishedChild(child);
     }
     
     protected override bool CanAddChild(BTNode child, ref string errorMessage) {
@@ -31,26 +44,13 @@ namespace DT.BehaviourTrees {
       return true;
     }
     
-    protected override BTNode SelectChildToProcess() {
-      return this.Child;
-    }
-    
-    protected override void HandleChildFinish(BTNode child) {
-      if (child.IsRunning()) {
-        Locator.Logger.LogError("HandleChildFinish - called when child is running");
-        return;
-      }
-     
-      this.ReturnStateBasedOnFinishedChild(child);
-    }
-    
     protected virtual void ReturnStateBasedOnFinishedChild(BTNode child) {
       if (child.State == BTNodeState.SUCCESS) {
         Succeed();
       } else if (child.State == BTNodeState.FAILURE) {
         Fail();
       } else {
-        Locator.Logger.LogError("ReturnStateBasedOnFinishedChild - child state is not handled (BTDecoratorNode): " + child.State);
+        Locator.Logger.LogError("BTDecoratorNode::ReturnStateBasedOnFinishedChild - child state is not handled: " + child.State + "!");
         return;
       }
     }
