@@ -23,5 +23,11 @@ namespace DT.BehaviourTrees {
     protected override bool CanAddChild(BTNode child, ref string errorMessage) {
       return false;
     }
+    
+    protected override void HandleStart() {
+      base.HandleStart();
+      
+      this.Init();
+    }
   }
 }

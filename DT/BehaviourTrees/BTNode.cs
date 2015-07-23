@@ -9,6 +9,12 @@ namespace DT.BehaviourTrees {
     RUNNING
   };
   
+  /// <summary>
+  /// Base node class for all nodes in the Behaviour Tree
+  ///
+  /// Note: nodes can propagate return states up the tree in a single tick
+  ///       but cannot start child nodes which start their children in a single tick
+  /// </summary>
   public abstract class BTNode {
     protected int _nodeId;
     public int NodeId {
@@ -72,7 +78,6 @@ namespace DT.BehaviourTrees {
     
     protected virtual void HandleStart() {
       _tree.NodeDidStart(this);
-      this.Tick();
     }
     
     protected virtual void Succeed() {

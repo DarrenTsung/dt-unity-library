@@ -11,11 +11,18 @@ namespace DT.BehaviourTrees {
     protected List<BTNode> _activeNodes;
 
     protected BTNode root;
+    
+    protected string _name;
+    public string Name {
+      get { return _name; }
+    }
 
-    public BehaviourTree() {
+    public BehaviourTree(string name) {
       _dataContext = new Dictionary<string, object>();
       _nodeMap = new Dictionary<int, BTNode>();
       _activeNodes = new List<BTNode>();
+      
+      _name = name;
     }
 
     public void Tick() {
