@@ -7,12 +7,14 @@ using Vexe.Runtime.Types;     // used for Message
 namespace DT.BehaviourTrees {
   public class BehaviourTree {
     protected Dictionary<string, object> _dataContext;
+    protected Dictionary<int, BTNode> _nodeMap;
     protected List<BTNode> _activeNodes;
 
     protected BTNode root;
 
     public BehaviourTree() {
       _dataContext = new Dictionary<string, object>();
+      _nodeMap = new Dictionary<int, BTNode>();
       _activeNodes = new List<BTNode>();
     }
 
@@ -36,6 +38,13 @@ namespace DT.BehaviourTrees {
         return;
       }
       _activeNodes.Remove(node);
+    }
+    
+    public BTNode GetNode(int nodeId) {
+      if (_nodeMap.ContainsKey(nodeId)) {
+        return _nodeMap[nodeId];
+      }
+      return null;
     }
   }
 }
