@@ -29,5 +29,9 @@ namespace DT.BehaviourTrees {
       
       this.Init();
     }
+    
+    protected virtual void Init() {
+      
+    }
   }
 }
