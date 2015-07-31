@@ -28,15 +28,15 @@ namespace DT {
 	public class PrefabManager : Singleton<PrefabManager> {
 		protected PrefabManager () {}
 
-		protected PrefabList prefabList;
+		protected PrefabList _prefabList;
 
 		protected void Awake() {
-			prefabList = new PrefabList();
+			_prefabList = new PrefabList();
 		}
 
 		public GameObject SpawnPrefab(string prefabName, Vector3 position) {
-			if (prefabList.IsValidPrefabName(prefabName)) {
-				GameObject prefab = prefabList.PrefabForName(prefabName);
+			if (_prefabList.IsValidPrefabName(prefabName)) {
+				GameObject prefab = _prefabList.PrefabForName(prefabName);
 				return Instantiate(prefab, position, Quaternion.identity) as GameObject;
 			} else {
 				Locator.Logger.LogWarning("SpawnPrefab - invalid prefab name: " + prefabName);
