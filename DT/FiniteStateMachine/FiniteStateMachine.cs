@@ -115,7 +115,7 @@ namespace DT.FiniteStateMachine {
 	 *
 	 *  	using DT.FiniteStateMachine;
 	 *  
-	 *   	protected CowStateEnum {
+	 *   	protected enum CowStateEnum {
 	 *   	  Walk,
 	 *   		Idle
 	 *   	}
@@ -144,27 +144,23 @@ namespace DT.FiniteStateMachine {
 	public class FiniteStateMachine<TEnum> : MonoBehaviour where TEnum : IConvertible, IComparable, IFormattable {
 		// PRAGMA MARK - INTERFACE
 		public void AddTransition(TEnum stateIdFrom, TEnum stateIdTo, int weight) {
-			if (!_stateHash.ContainsKey(stateIdFrom) || !_stateHash.ContainsKey(stateIdTo)) {
-				Locator.Logger.LogWarning("FiniteStateMachine::AddTransition - invalid state; stateFrom: " + stateIdFrom + ". stateTo: " + stateIdTo);
-				return;
-			}
-
-			State<TEnum> stateFrom = _stateHash[stateIdFrom];
-			State<TEnum> stateTo = _stateHash[stateIdTo];
+			State<TEnum> stateFrom = this.StateFromId(stateIdFrom);
+			State<TEnum> stateTo = this.StateFromId(stateIdTo);
 
 			StateTransition<TEnum> newTransition = new StateTransition<TEnum>(stateTo, weight);
 			stateFrom.AddTransition(newTransition);
 		}
 
-		public void SetStartState(TEnum startEnumId) {
-			if (!_stateHash.ContainsKey(startEnumId)) {
-				Locator.Logger.LogWarning("FiniteStateMachine::SetStartState - invalid start state id: " + startEnumId);
-			}
-
-			State<TEnum> startState = _stateHash[startEnumId];
+		public void SetStartState(TEnum startStateId) {
+			State<TEnum> startState = this.StateFromId(startStateId);
 
 			_currentState = startState;
 			_remainingTimeInState = _currentState.GenerateTime();
+		}
+		
+		public void SetMinMaxTime(TEnum stateId, float min, float max) {
+			State<TEnum> state = this.StateFromId(stateId);
+			state.SetMinMaxTime(min, max);
 		}
 		
 		public void ResetWithState(TEnum startStateId) {
@@ -177,7 +173,7 @@ namespace DT.FiniteStateMachine {
 		}
 
 		public void ForceTransitionToStateEnum(TEnum stateId) {
-			State<TEnum> state = _stateHash[stateId];
+			State<TEnum> state = this.StateFromId(stateId);
 
 			this.TransitionToState(state);
 		}
@@ -193,10 +189,17 @@ namespace DT.FiniteStateMachine {
 		protected Dictionary<string, Action> _stateActionCache;
 		protected Dictionary<TEnum, State<TEnum>> _stateHash;
 		
+		protected virtual void SetupStateMachine() {
+			
+		}
+		
 		protected virtual void Awake() {
 			if (!typeof(TEnum).IsEnum) {
 				Locator.Logger.LogError("FiniteStateMachine::() - TEnum generic constraint not satisfied!");
 			}
+			
+			_stateHash = new Dictionary<TEnum, State<TEnum>>();
+			_stateActionCache = new Dictionary<string, Action>();
 			
 			// cache all of our state methods
 			TEnum[] enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
@@ -207,10 +210,11 @@ namespace DT.FiniteStateMachine {
 			}
 			
 			_remainingTimeInState = 0.0f;
-			_stateHash = new Dictionary<TEnum, State<TEnum>>();
+			
+			this.SetupStateMachine();
 		}
 
-		protected void Update() {
+		protected virtual void Update() {
 			_remainingTimeInState -= Time.deltaTime;
 			if (_remainingTimeInState <= 0) {
 				if (_currentState == null) {
@@ -274,6 +278,14 @@ namespace DT.FiniteStateMachine {
 			
 			_currentState = nextState;
 			_remainingTimeInState = _currentState.GenerateTime();
+		}
+		
+		protected State<TEnum> StateFromId(TEnum stateId) {
+			if (!_stateHash.ContainsKey(stateId)) {
+				Locator.Logger.LogWarning("FiniteStateMachine::StateFromId - invalid state id: " + stateId);
+			}
+
+			return _stateHash[stateId];
 		}
 	}
 }
