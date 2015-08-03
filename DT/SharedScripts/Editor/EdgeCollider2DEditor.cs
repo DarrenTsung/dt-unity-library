@@ -9,10 +9,12 @@ namespace DT {
 			EditorWindow.GetWindow (typeof(EdgeCollider2DEditor));
 		}
 	 
-		EdgeCollider2D edge;
-		Vector2[] vertices = new Vector2[0];
+		protected EdgeCollider2D edge;
+		protected Vector2[] vertices = new Vector2[0];
+    protected Vector2 _offset;
+    protected Vector2 _size;
 	 
-		void OnGUI()
+		protected void OnGUI()
 		{
 			GUILayout.Label ("EdgeCollider2D Editor", EditorStyles.boldLabel);
 			edge = (EdgeCollider2D) EditorGUILayout.ObjectField("EdgeCollider2D to edit", edge, typeof(EdgeCollider2D), true);
@@ -24,7 +26,7 @@ namespace DT {
 			}
 	 
 			if (GUILayout.Button("Retrieve")) {
-				vertices = edge.points;
+        this.Refresh();
 			}
 			
 			if (GUILayout.Button("Set")) {
@@ -36,9 +38,43 @@ namespace DT {
 				Array.Copy(vertices, newVertices, vertices.Length);
 				newVertices[vertices.Length] = new Vector2(0.0f, 0.0f);
 				edge.points = newVertices;
-				OnGUI();
+        this.Refresh();
 			}
+      
+      GUILayout.Label("Set Rectangle (WARNING: THIS OVERRIDES ALL EDGES)", EditorStyles.boldLabel);
+      _offset = EditorGUILayout.Vector2Field("Offset", _offset);
+      _size = EditorGUILayout.Vector2Field("Size", _size);
+			if (GUILayout.Button("Set Rectangle")) {
+				if (EditorUtility.DisplayDialog("Set Rectangle?", 
+				                                "Are you sure that you want to set this rectangle? (THIS OVERWRITE EVERYTHING)", 
+				                                "I'm Sure", 
+				                                "Cancel")) {
+					edge.points = this.CreateRectanglePoints(_offset, _size);
+          this.Refresh();
+        }
+      }
 		}
+    
+    protected Vector2[] CreateRectanglePoints(Vector2 offset, Vector2 size) {
+      Vector2 upperLeftPoint = offset + new Vector2(-size.x, size.y);
+      Vector2 lowerLeftPoint = offset + new Vector2(-size.x, -size.y);
+      Vector2 upperRightPoint = offset + new Vector2(size.x, size.y);
+      Vector2 lowerRightPoint = offset + new Vector2(size.x, -size.y);
+      
+      Vector2[] points = new Vector2[5];
+      points[0] = upperLeftPoint;
+      points[1] = lowerLeftPoint;
+      points[2] = lowerRightPoint;
+      points[3] = upperRightPoint;
+      points[4] = upperLeftPoint;
+      
+      return points;
+    }
+    
+    protected void Refresh() {
+				vertices = edge.points;
+        OnGUI();
+    }
 	 
 		void OnSelectionChange() {
 			if (Selection.gameObjects.Length == 1) {
