@@ -1,5 +1,7 @@
 using UnityEngine;
  
-public class EnumFlagAttribute : PropertyAttribute {
-    public EnumFlagAttribute() {}
+namespace DT {
+  public class EnumFlagAttribute : PropertyAttribute {
+      public EnumFlagAttribute() {}
+  }
 }
