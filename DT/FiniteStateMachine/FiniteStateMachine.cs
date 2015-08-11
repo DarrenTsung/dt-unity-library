@@ -190,7 +190,6 @@ namespace DT.FiniteStateMachine {
 		protected Dictionary<TEnum, State<TEnum>> _stateHash;
 		
 		protected virtual void SetupStateMachine() {
-			
 		}
 		
 		protected virtual void Awake() {
@@ -259,9 +258,11 @@ namespace DT.FiniteStateMachine {
 		}
 		
 		protected void CallActionForMethod(string methodName) {
-			Action action = _stateActionCache[methodName];
-			if (action != null) {
-				action();
+			if (_stateActionCache.ContainsKey(methodName)) {
+				Action action = _stateActionCache[methodName];
+				if (action != null) {
+					action();
+				}
 			}
 		}
 		

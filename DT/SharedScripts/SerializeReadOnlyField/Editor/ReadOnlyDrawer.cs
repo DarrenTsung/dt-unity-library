@@ -19,6 +19,9 @@ namespace DT {
 				case SerializedPropertyType.String:
 					valueStr = _property.stringValue;
 					break;
+				case SerializedPropertyType.Enum:
+					valueStr = _property.ToString();
+					break;
 				default:
 					valueStr = "(not supported)";
 					break;
