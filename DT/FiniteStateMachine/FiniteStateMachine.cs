@@ -41,6 +41,10 @@ namespace DT.FiniteStateMachine {
 			return String.Format("{0}Tick", _id.ToString());
 		}
 		
+		public string FixedTickKey() {
+			return String.Format("{0}FixedTick", _id.ToString());
+		}
+		
 		public string ExitKey() {
 			return String.Format("{0}Exit", _id.ToString());
 		}
@@ -228,6 +232,10 @@ namespace DT.FiniteStateMachine {
 			this.CallActionForMethod(_currentState.TickKey());
 		}
 		
+		protected virtual void FixedUpdate() {
+			this.CallActionForMethod(_currentState.FixedTickKey());
+		}
+		
 		protected void InitializeState(State<TEnum> state, TEnum[] allEnumValues) {
 			foreach (TEnum e in allEnumValues) {
 				if (state.Id.Equals(e)) {
@@ -239,6 +247,7 @@ namespace DT.FiniteStateMachine {
 			
 			this.SetupActionForMethod(state.EnterKey());
 			this.SetupActionForMethod(state.TickKey());
+			this.SetupActionForMethod(state.FixedTickKey());
 			this.SetupActionForMethod(state.ExitKey());
 		}
 		
