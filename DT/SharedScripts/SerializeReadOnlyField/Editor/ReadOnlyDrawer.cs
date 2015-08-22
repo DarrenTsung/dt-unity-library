@@ -20,14 +20,14 @@ namespace DT {
 					valueStr = _property.stringValue;
 					break;
 				case SerializedPropertyType.Enum:
-					valueStr = _property.ToString();
+					valueStr = _property.enumDisplayNames[_property.enumValueIndex];
 					break;
 				default:
 					valueStr = "(not supported)";
 					break;
 			}
 
-			EditorGUI.LabelField(_position, _label.text, valueStr);
+			EditorGUI.LabelField(_position, _label.text + ":", valueStr);
 		}
 	}
 }

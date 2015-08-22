@@ -8,7 +8,20 @@ namespace DT.EditableShapes {
 	[CustomEditor(typeof(EditablePolygonComponent))]
 	public class EditablePolygonComponentEditor : Editor {
 		// PRAGMA MARK - INTERNAL
+		protected AutoSnap _autoSnapInstance = AutoSnap.Instance();
 		protected int _lastIndexInteractedWith = 0;
+		
+		protected void OnEnable() {
+			Undo.undoRedoPerformed += UndoRedoPerformed;
+ 		}
+		
+		protected void OnDisable() {
+			Undo.undoRedoPerformed -= UndoRedoPerformed;
+		}
+		
+		protected void UndoRedoPerformed() {
+			this.Shape().HandlePointsUpdated();
+		}
 		
 		protected void OnSceneGUI() {
 			this.ListenForEvents();
@@ -38,11 +51,15 @@ namespace DT.EditableShapes {
 		protected void HandleAddPoint() {
 			EditablePolygonComponent shape = this.Shape();
 			Vector2 localPosition = (Vector2)(Event.current.MouseWorldPosition() - shape.gameObject.transform.position);
+			localPosition = _autoSnapInstance.SnapToValues(localPosition);
+			Undo.RecordObject(shape, "AddPoint");
 			shape.AddPoint(new PolygonPoint(localPosition));
 		}
 		
 		protected void HandleDeletePoint() {
-			this.Shape().RemoveIndex(_lastIndexInteractedWith);
+			EditablePolygonComponent shape = this.Shape();
+			Undo.RecordObject(shape, "DeletePoint");
+			shape.RemoveIndex(_lastIndexInteractedWith);
 		}
 		
 		protected void AddDraggableHandles() {
@@ -65,11 +82,14 @@ namespace DT.EditableShapes {
 				switch (dhResult) {
 					case CustomHandle.DragHandleResult.LMBDrag: {
 						PolygonPoint copy = point;
+						movedLocalPosition = _autoSnapInstance.SnapToValues(movedLocalPosition);
 						copy.LocalPosition = movedLocalPosition;
+						Undo.RecordObject(shape, "SetPoint");
 						shape.SetPoint(index, copy);
 						break;
 					}
 					case CustomHandle.DragHandleResult.LMBRelease:
+					case CustomHandle.DragHandleResult.LMBClick:
 						_lastIndexInteractedWith = index;
 						break;
 				}

@@ -44,15 +44,29 @@ namespace DT.EditableShapes {
 		}
 		
 		public void AddPoint(PolygonPoint newPoint) {
-			// calculate closest point and add after that point
-			PolygonPoint[] sortedPoints = _points.OrderBy(p => (p.LocalPosition - newPoint.LocalPosition).magnitude).ToArray();
-			
-			int bestIndex = _points.IndexOf(sortedPoints[0]);
-			int secondBestIndex = _points.IndexOf(sortedPoints[1]);
-			
-			int smallerIndex = (bestIndex < secondBestIndex) ? bestIndex : secondBestIndex;
-			_points.Insert(smallerIndex + 1, newPoint);
+			// Go through each line segment and compute the distance to 
+			int bestLineSegmentIndex = 0;
+			float bestLineSegmentDistance = float.MaxValue;
+			for (int index = 0; index < _points.Count; index++) {
+				Vector2 lineStart = _points[index].LocalPosition;
+				Vector2 lineEnd = _points[(index + 1) % _points.Count].LocalPosition;
+				float distanceToSegment = newPoint.LocalPosition.MinimumDistanceToLine(lineStart, lineEnd);
+				if (distanceToSegment < bestLineSegmentDistance) {
+					bestLineSegmentDistance = distanceToSegment;
+					bestLineSegmentIndex = index;
+				}
+			}
+			_points.Insert(bestLineSegmentIndex + 1, newPoint);
 			this.HandlePointsUpdated();
+		}
+
+		public void HandlePointsUpdated() {
+			PolygonPoint[] points = this.Points;
+			
+			IEditablePolygonDelegate[] delegates = this.GetDelegates();
+			foreach (IEditablePolygonDelegate d in delegates) {
+				d.HandlePointsUpdated(points);
+			}
 		}
 		
 		// PRAGMA MARK - INTERNAL
@@ -63,15 +77,6 @@ namespace DT.EditableShapes {
 		
 		protected void Awake() {
 			_collider = this.GetRequiredComponent<PolygonCollider2D>();
-		}
-
-		protected void HandlePointsUpdated() {
-			PolygonPoint[] points = this.Points;
-			
-			IEditablePolygonDelegate[] delegates = this.GetDelegates();
-			foreach (IEditablePolygonDelegate d in delegates) {
-				d.HandlePointsUpdated(points);
-			}
 		}
 		
 		protected IEditablePolygonDelegate[] GetDelegates() {
