@@ -2,14 +2,14 @@ using UnityEngine;
 using System.Linq;		// used for ElementAt
 using System.Collections;
 using System.Collections.Generic;
-using Vexe.Runtime.Types;   // used for BetterScriptableObject
+// using Vexe.Runtime.Types;   // used for BetterScriptableObject
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace DT {
-  public class Database<K, V> : BetterScriptableObject {
+  public class Database<K, V> : ScriptableObject {
 		protected const string DATABASE_FOLDER_PREFIX_PATH = @"Assets/Resources";
 		protected const string DATABASE_FOLDER_NAME = @"DTDatabases";
 		protected const string DATABASE_FILE_EXTENSION = @".asset";

@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;          // used for Except
-using Vexe.Runtime.Types;     // used for Message
 
 namespace DT.BehaviourTrees {
   public class BehaviourTree {
