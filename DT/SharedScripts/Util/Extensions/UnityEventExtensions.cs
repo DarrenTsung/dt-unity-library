@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace UnityEvents
@@ -13,6 +14,12 @@ namespace UnityEvents
 
     [System.Serializable]
     public class B : UnityEvent<bool> { }
+
+    [System.Serializable]
+    public class V2 : UnityEvent<Vector2> { }
+
+    [System.Serializable]
+    public class V3 : UnityEvent<Vector3> { }
 
     [System.Serializable]
     public class O : UnityEvent<object> { }
