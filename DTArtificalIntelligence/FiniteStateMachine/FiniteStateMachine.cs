@@ -40,14 +40,14 @@ namespace DT.FiniteStateMachine {
       System.Type stateType = state.GetType();
       System.Type otherStateType = otherState.GetType();
       if (!_transitions.ContainsKey(stateType) || !_transitions.ContainsKey(otherStateType)) {
-        Locator.Logger.LogError("FiniteStateMachine::AddTransition - Invalid state types!");
+        Debug.LogError("FiniteStateMachine::AddTransition - Invalid state types!");
         return;
       }
       
       TransitionMap transitionMap = _transitions[stateType];
       TransitionMap otherTransitionMap = _transitions[otherStateType];
       if (transitionMap.PossibleStatesToTransitionTo.Contains(otherStateType) || otherTransitionMap.PossibleStatesToTransitionFrom.Contains(stateType)) {
-        Locator.Logger.LogError("FiniteStateMachine::AddTransition - State already found inside possible states to transition to!");
+        Debug.LogError("FiniteStateMachine::AddTransition - State already found inside possible states to transition to!");
         return;
       }
       
@@ -65,7 +65,7 @@ namespace DT.FiniteStateMachine {
 			// do a sanity check while in the editor to ensure we have the given state in our state list
 			if(!_states.ContainsKey(newType)) {
 				string error = GetType() + ": state " + newType + " does not exist. Did you forget to add it by calling addState?";
-        Locator.Logger.LogError(error);
+        Debug.LogError(error);
 				throw new Exception(error);
 			}
 			#endif  
@@ -92,7 +92,7 @@ namespace DT.FiniteStateMachine {
       if (shouldExit || shouldExitFromTime) {
         TransitionMap currentTransitionMap = _transitions[_currentState.GetType()];
         if (currentTransitionMap.PossibleStatesToTransitionTo.Count <= 0) {
-          Locator.Logger.LogError("FiniteStateMachine::Update - current state attempting to exit, missing transitions to exit to.");
+          Debug.LogError("FiniteStateMachine::Update - current state attempting to exit, missing transitions to exit to.");
           return;
         }
         

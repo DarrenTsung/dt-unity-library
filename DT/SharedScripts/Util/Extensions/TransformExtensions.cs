@@ -6,7 +6,7 @@ namespace DT {
   	public static T GetComponentInParent<T>(this Transform transform, bool required = true) {
   		T found = transform.gameObject.GetComponentInParent<T>();
   		if (found == null && required) {
-  			Locator.Logger.LogError("GetComponentInParent<T> - missing parent component!");
+  			Debug.LogError("GetComponentInParent<T> - missing parent component!");
   		}
   		return found;
   	}

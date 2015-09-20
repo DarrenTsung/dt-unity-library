@@ -71,7 +71,7 @@ namespace DT.LootSystem {
 				lastIndex += drop.weight;
 			}
 
-			Locator.Logger.LogError("LootDrop:ChooseRandom - Drop was not chosen correctly | chosenIndex: " + chosenIndex);
+			Debug.LogError("LootDrop:ChooseRandom - Drop was not chosen correctly | chosenIndex: " + chosenIndex);
 			return null;
 		}
 	}

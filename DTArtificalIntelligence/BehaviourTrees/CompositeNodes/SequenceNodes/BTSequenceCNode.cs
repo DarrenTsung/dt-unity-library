@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DT.BehaviourTrees {
   /// <summary>
@@ -22,7 +23,7 @@ namespace DT.BehaviourTrees {
       if (child.State == BTNodeState.FAILURE) {
         _failedNodes++;
       } else if (child.State != BTNodeState.SUCCESS) {
-        Locator.Logger.LogError("BTCompositeNode::HandleChildFinish - invalid child state!");
+        Debug.LogError("BTCompositeNode::HandleChildFinish - invalid child state!");
       }
       
       if (_failedNodes > _maxFailedNodes) {

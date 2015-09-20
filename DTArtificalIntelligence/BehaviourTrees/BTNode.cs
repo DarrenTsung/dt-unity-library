@@ -71,7 +71,7 @@ namespace DT.BehaviourTrees {
     protected virtual void ProcessOneChild() {
       BTNode child = this.SelectChildToProcess();
       if (child == null) {
-        Locator.Logger.LogError("BTNode::ProcessOneChild - selected child to process is null!");
+        Debug.LogError("BTNode::ProcessOneChild - selected child to process is null!");
       }
       child.HandleStart();
     }

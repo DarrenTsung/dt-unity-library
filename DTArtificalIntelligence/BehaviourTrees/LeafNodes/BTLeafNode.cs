@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DT.BehaviourTrees {
   /// <summary>
@@ -17,7 +18,7 @@ namespace DT.BehaviourTrees {
     }
     
     protected override void HandleChildFinish(BTNode child) {
-      Locator.Logger.LogError("BTLeafNode::HandleChildFinish - leaf node should not have a child that could've finished!");
+      Debug.LogError("BTLeafNode::HandleChildFinish - leaf node should not have a child that could've finished!");
     }
     
     protected override bool CanAddChild(BTNode child, ref string errorMessage) {

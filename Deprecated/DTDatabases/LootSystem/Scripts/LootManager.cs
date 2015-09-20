@@ -22,7 +22,7 @@ namespace DT.LootSystem {
 		public void SpawnLootAtPoint(List<string> lootIds, Vector3 point) {
 			foreach (string lootId in lootIds) {
 				if (!database.ContainsKey(lootId)) {
-					Locator.Logger.LogError("LootDatabase does not contain key: " + lootId);
+					Debug.LogError("LootDatabase does not contain key: " + lootId);
 				}
 				Loot loot = database.Get(lootId);
 

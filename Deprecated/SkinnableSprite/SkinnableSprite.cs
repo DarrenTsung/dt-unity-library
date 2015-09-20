@@ -22,7 +22,7 @@ namespace DT.SkinnableSprites {
 			if (newSprite != null) {
 				_spriteRenderer.sprite = newSprite;
 			} else {
-				Locator.Logger.LogError(string.Format("UpdateSpriteWithPrefix - no sprite found for prefix: {0} and spriteName: {1}", _storedPrefix, _storedSpriteName));
+				Debug.LogError(string.Format("UpdateSpriteWithPrefix - no sprite found for prefix: {0} and spriteName: {1}", _storedPrefix, _storedSpriteName));
 			}
 		}
 		

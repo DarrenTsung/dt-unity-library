@@ -32,7 +32,7 @@ namespace DT.BehaviourTrees {
     
     public void NodeDidStart(BTNode node) {
       if (_activeNodes.Contains(node)) {
-        Locator.Logger.LogError("NodeDidStart - started node was in active nodes!");
+        Debug.LogError("NodeDidStart - started node was in active nodes!");
         return;
       }
       _activeNodes.Add(node);
@@ -40,7 +40,7 @@ namespace DT.BehaviourTrees {
     
     public void NodeDidFinish(BTNode node) {
       if (!_activeNodes.Contains(node)) {
-        Locator.Logger.LogError("NodeDidFinish - finished node was not in active nodes!");
+        Debug.LogError("NodeDidFinish - finished node was not in active nodes!");
         return;
       }
       _activeNodes.Remove(node);

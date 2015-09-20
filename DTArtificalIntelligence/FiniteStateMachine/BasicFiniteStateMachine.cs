@@ -69,7 +69,7 @@ namespace DT.FiniteStateMachine {
 
 		public BState<TEnum> ChooseNextState() {
 			if (_transitions.Count <= 0) {
-				Locator.Logger.LogError("ChooseNextState() called when there are no states to transition to");
+				Debug.LogError("ChooseNextState() called when there are no states to transition to");
 				throw new UnityException();
 			}
 
@@ -198,7 +198,7 @@ namespace DT.FiniteStateMachine {
 		
 		protected virtual void Awake() {
 			if (!typeof(TEnum).IsEnum) {
-				Locator.Logger.LogError("BasicFiniteStateMachine::() - TEnum generic constraint not satisfied!");
+				Debug.LogError("BasicFiniteStateMachine::() - TEnum generic constraint not satisfied!");
 			}
 			
 			_stateHash = new Dictionary<TEnum, BState<TEnum>>();
@@ -221,7 +221,7 @@ namespace DT.FiniteStateMachine {
 			_remainingTimeInState -= Time.deltaTime;
 			if (_remainingTimeInState <= 0) {
 				if (_currentState == null) {
-					Locator.Logger.LogError("BasicFiniteStateMachine::Tick - current state null (did you forget to set the start state?)");
+					Debug.LogError("BasicFiniteStateMachine::Tick - current state null (did you forget to set the start state?)");
 				} else {
 					if (_currentState.CanTransitionWithTime()) {
 						this.AdvanceCurrentState();
@@ -253,7 +253,7 @@ namespace DT.FiniteStateMachine {
 		
 		protected void SetupActionForMethod(string methodName) {
 			if (_stateActionCache.ContainsKey(methodName)) {
-				Locator.Logger.LogError("BasicFiniteStateMachine::SetupActionForMethod - Method " + methodName + " already exists!");
+				Debug.LogError("BasicFiniteStateMachine::SetupActionForMethod - Method " + methodName + " already exists!");
 				return;
 			}
 			
@@ -277,7 +277,7 @@ namespace DT.FiniteStateMachine {
 		
 		protected void TransitionToState(BState<TEnum> nextState) {
 			if (nextState == null) {
-				Locator.Logger.LogError("BasicFiniteStateMachine::TransitionToState - called with invalid state!");
+				Debug.LogError("BasicFiniteStateMachine::TransitionToState - called with invalid state!");
 				return;
 			}
 			
@@ -292,7 +292,7 @@ namespace DT.FiniteStateMachine {
 		
 		protected BState<TEnum> StateFromId(TEnum stateId) {
 			if (!_stateHash.ContainsKey(stateId)) {
-				Locator.Logger.LogWarning("BasicFiniteStateMachine::StateFromId - invalid state id: " + stateId);
+				Debug.LogWarning("BasicFiniteStateMachine::StateFromId - invalid state id: " + stateId);
 			}
 
 			return _stateHash[stateId];

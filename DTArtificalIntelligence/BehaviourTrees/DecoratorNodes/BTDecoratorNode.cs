@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DT.BehaviourTrees {
   /// <summary>
@@ -13,7 +14,7 @@ namespace DT.BehaviourTrees {
     protected BTNode Child {
       get {
         if (_children.Count != 1) {
-          Locator.Logger.LogError("Decorator Node with invalid number of children!");
+          Debug.LogError("Decorator Node with invalid number of children!");
         }
         return _children[0];
       }
@@ -27,7 +28,7 @@ namespace DT.BehaviourTrees {
     
     protected override void HandleChildFinish(BTNode child) {
       if (child.IsRunning()) {
-        Locator.Logger.LogError("BTDecoratorNode::HandleChildFinish - called when child is running");
+        Debug.LogError("BTDecoratorNode::HandleChildFinish - called when child is running");
         return;
       }
      
@@ -48,7 +49,7 @@ namespace DT.BehaviourTrees {
       } else if (child.State == BTNodeState.FAILURE) {
         Fail();
       } else {
-        Locator.Logger.LogError("BTDecoratorNode::ReturnStateBasedOnFinishedChild - child state is not handled: " + child.State + "!");
+        Debug.LogError("BTDecoratorNode::ReturnStateBasedOnFinishedChild - child state is not handled: " + child.State + "!");
         return;
       }
     }

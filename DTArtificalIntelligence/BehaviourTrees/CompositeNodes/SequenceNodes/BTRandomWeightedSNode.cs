@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace DT.BehaviourTrees {
   /// <summary>
@@ -38,7 +39,7 @@ namespace DT.BehaviourTrees {
     
     public int Weight(int nodeId) {
       if (!_nodeWeightMap.ContainsKey(nodeId)) {
-        Locator.Logger.LogError("BTRandomWeightedSNode::Weight - querying about a nodeId that doesn't exist in the weight map!");
+        Debug.LogError("BTRandomWeightedSNode::Weight - querying about a nodeId that doesn't exist in the weight map!");
         return -1;
       }
       return _nodeWeightMap[nodeId];
@@ -46,7 +47,7 @@ namespace DT.BehaviourTrees {
     
     public void SetWeight(int nodeId, int newWeight) {
       if (_tree.GetNode(nodeId) == null) {
-        Locator.Logger.LogError("BTRandomWeightedSNode::SetWeight - invalid node id passed in! Not registered with tree.");
+        Debug.LogError("BTRandomWeightedSNode::SetWeight - invalid node id passed in! Not registered with tree.");
         return;
       }
       _nodeWeightMap[nodeId] = newWeight;

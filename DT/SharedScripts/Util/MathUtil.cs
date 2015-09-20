@@ -12,7 +12,7 @@ public class MathUtils : MonoBehaviour {
 	 */
 	public static float QuadInOut(float a, float b, float r) {
 		if (r < 0.0f || r > 1.0f) {
-			Locator.Logger.LogError("Invalid r (" + r + ") value for QuadInOut!");
+			Debug.LogError("Invalid r (" + r + ") value for QuadInOut!");
 			return 0.0f;
 		}
 		
