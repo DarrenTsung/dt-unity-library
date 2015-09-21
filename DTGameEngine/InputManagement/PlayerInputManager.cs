@@ -5,8 +5,13 @@ using System.Collections;
 
 #if IN_CONTROL
 namespace DT {
+	public enum PlayerInputType {
+		MOUSE_AND_KEYBOARD,
+		CONTROLLER
+	}
+	
 	public class PlayerInputManager<TPlayerActions, KPlayer> : Singleton<PlayerInputManager<TPlayerActions, KPlayer>> where TPlayerActions : PlayerActions, new()
-	 																																																		where KPlayer : Player {
+	 																																																									where KPlayer : Player {
 		protected PlayerInputManager() {}
 		
 		// PRAGMA MARK - INTERFACE
@@ -20,6 +25,11 @@ namespace DT {
 		// PRAGMA MARK - INTERNAL
 		[SerializeField]
 		protected Player _player;
+		[SerializeField]
+		protected PlayerInputType _inputType;
+		[SerializeField]
+		protected Vector3 _playerMouseInputPlaneNormal;
+		
 		protected bool _inputDisabled;
 		protected TPlayerActions _playerActions;
 		
@@ -28,26 +38,16 @@ namespace DT {
 		}
 		
 		protected virtual void Start() {
+			this.SetupPlayerActions();
+		}
+		
+		protected virtual void SetupPlayerActions() {
 			_playerActions = new TPlayerActions();
-			this.BindDefaultActions();
+			_playerActions.BindWithActions(_inputType);
 		}
 		
 		protected void SetupWithPlayer(GameObject player) {
 			_player = player.GetComponent<KPlayer>();
-		}
-		
-		protected virtual void BindDefaultActions() {
-			_playerActions.Left.AddDefaultBinding(Key.A);
-			_playerActions.Left.AddDefaultBinding(InputControlType.LeftStickLeft);
-			
-			_playerActions.Right.AddDefaultBinding(Key.D);
-			_playerActions.Right.AddDefaultBinding(InputControlType.LeftStickRight);
-			
-			_playerActions.Up.AddDefaultBinding(Key.W);
-			_playerActions.Up.AddDefaultBinding(InputControlType.LeftStickUp);
-			
-			_playerActions.Down.AddDefaultBinding(Key.S);
-			_playerActions.Down.AddDefaultBinding(InputControlType.LeftStickDown);
 		}
 
 		protected void Update() {
@@ -57,9 +57,34 @@ namespace DT {
 		}
 		
 		protected virtual void UpdateInput() {
-			// LEFT STICK
-			Vector2 direction = _playerActions.Direction.Value;
-			_player.HandleDirectionVector.Invoke(direction);
+			Vector2 primaryDirection = this.GetPrimaryDirection();
+			_player.HandlePrimaryDirectionVector.Invoke(primaryDirection);
+			
+			Vector2 secondaryDirection = this.GetSecondaryDirection();
+			_player.HandleSecondaryDirectionVector.Invoke(secondaryDirection);
+		}
+		
+		protected virtual Vector2 GetPrimaryDirection() {
+			Vector2 primaryDirection = _playerActions.PrimaryDirection.Value;
+			return primaryDirection;
+		}
+		
+		protected virtual Vector2 GetSecondaryDirection() {
+			Vector2 secondaryDirection = _playerActions.SecondaryDirection.Value;
+			if (_inputType == PlayerInputType.MOUSE_AND_KEYBOARD) {
+				Plane playerMouseInputPlane = new Plane(_playerMouseInputPlaneNormal, _player.transform.position);
+				Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+				float rayDistance;
+				
+				if (playerMouseInputPlane.Raycast(mouseRay, out rayDistance)) {
+					Vector3 mouseVector = mouseRay.GetPoint(rayDistance) - _player.transform.position;
+					// use this quaternion to convert the line into the xy plane 
+					Quaternion normalRotation = Quaternion.FromToRotation(_playerMouseInputPlaneNormal, Vector3.back);
+					Vector3 xyPlaneVector = normalRotation * mouseVector;
+					secondaryDirection = xyPlaneVector;
+				}
+			}
+			return secondaryDirection;
 		}
 	}
 }

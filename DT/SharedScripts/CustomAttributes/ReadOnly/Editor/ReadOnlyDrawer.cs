@@ -25,6 +25,9 @@ namespace DT {
 				case SerializedPropertyType.Vector2:
 					valueStr = _property.vector2Value.ToString();
 					break;
+				case SerializedPropertyType.Vector3:
+					valueStr = _property.vector3Value.ToString();
+					break;
 				default:
 					valueStr = "(not supported)";
 					break;
