@@ -2,13 +2,10 @@
 Personal library for developing unity games
 
 ###Install Instructions:   
-Add the unity library to your project somewhere, either as a submodule or a copy.
+Add the library to your project in the top level of the Assets folder as a submodule
 ```
-git clone https://github.com/DarrenTsung/dt-unity-library.git
+cd /Path/To/Assets/
+git submodule add https://github.com/DarrenTsung/dt-unity-library.git 
 ```
 
-Clone the VFW framework somewhere and import it into your project (Assets -> Import Package -> Custom Package)
-```
-git clone https://github.com/vexe/VFW.git
-```
 Done!
